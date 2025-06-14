@@ -21,10 +21,10 @@ const ControlLayout = ({ children, className }: props) => {
       className={cn(
         className,
         isVisible && "invisible",
-        "bg-[#171717] flex px-1 flex-col rounded-3xl overflow-hidden"
+        "flex flex-col bg-gradient-to-br from-neutral-900 to-neutral-600 text-white rounded-lg overflow-hidden"
       )}
     >
-        <div className="flex justify-between items-center p-2 bg-neutral-800 draggable">
+        <div className="flex justify-between items-center p-2 gap-3 bg-neutral-800 draggable">
             <div className="flex items-center gap-2 non-draggable">
                 <img src="" alt="logo" className="w-6 h-6" />
                 <p className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">ClipIQ</p>

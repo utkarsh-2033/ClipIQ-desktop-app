@@ -1,5 +1,8 @@
-import { useUser } from "@clerk/clerk-react";
-import React, { useState } from "react";
+import { useMediaResources } from "@/hooks/useMediaResources";
+import { fetchUserdata } from "@/lib/utils";
+import { ClerkLoading, SignedIn, useUser } from "@clerk/clerk-react";
+import React, { useEffect, useState } from "react";
+import { Loader } from "../Loader";
 
 const Widget = () => {
   const [userdata, setUserdata] = useState<{
@@ -29,9 +32,37 @@ const Widget = () => {
       | null;
   } | null>(null);
   const {user}=useUser();
-  
+  const { state, fetchMediaResources } = useMediaResources();
 
-  return <div></div>;
+  useEffect(() => {
+    if (user && user.id) {
+      fetchUserdata(user.id).then((profile) => {
+        setUserdata(profile);
+      });
+      fetchMediaResources();
+    }
+  }, [user]);
+  return (
+    <div className="p-5">
+        {/* renders its children while Clerk is loading, */}
+      <ClerkLoading>
+        <div className="h-full flex justify-center items-center">
+          <Loader />
+        </div>
+      </ClerkLoading>
+      <SignedIn>
+        {userdata ? (
+            ""
+          //ts-ignore
+        //   <MediaConfiguration state={state} user={profile?.user} />
+        ) : (
+          <div className="w-full h-full flex justify-center items-center">
+            <Loader color="#fff" />
+          </div>
+        )}
+      </SignedIn>
+    </div>
+  )
 };
 
 export default Widget;
