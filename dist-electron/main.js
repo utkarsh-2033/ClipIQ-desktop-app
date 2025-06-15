@@ -14,13 +14,15 @@ let studioWin;
 let webcamWin;
 function createWindow() {
   win = new BrowserWindow({
-    width: 500,
+    width: 400,
     height: 600,
     minHeight: 600,
     minWidth: 300,
-    hasShadow: false,
-    // frame: false,
+    // maxWidth: 600,
+    // hasShadow: false,
+    frame: false,
     transparent: true,
+    // backgroundColor: '#00000000',
     alwaysOnTop: true,
     focusable: true,
     icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
@@ -32,12 +34,14 @@ function createWindow() {
     }
   });
   studioWin = new BrowserWindow({
-    width: 500,
-    height: 600,
-    minHeight: 600,
+    width: 400,
+    height: 300,
+    minHeight: 70,
+    maxHeight: 400,
     minWidth: 300,
-    hasShadow: false,
-    // frame: false,
+    maxWidth: 400,
+    // hasShadow: false,
+    frame: false,
     transparent: true,
     alwaysOnTop: true,
     focusable: true,
@@ -50,12 +54,14 @@ function createWindow() {
     }
   });
   webcamWin = new BrowserWindow({
-    width: 500,
-    height: 600,
-    minHeight: 600,
+    width: 400,
+    height: 200,
+    minHeight: 70,
+    maxHeight: 400,
     minWidth: 300,
-    hasShadow: false,
-    // frame: false,
+    maxWidth: 400,
+    // hasShadow: false,
+    frame: false,
     transparent: true,
     alwaysOnTop: true,
     focusable: true,
@@ -90,8 +96,8 @@ function createWindow() {
   });
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
-    studioWin.loadURL(`${void 0}/studio.html`);
-    webcamWin.loadURL(`${void 0}/webcam.html`);
+    studioWin.loadURL(`${"http://localhost:5173"}/studio.html`);
+    webcamWin.loadURL(`${"http://localhost:5173"}/webcam.html`);
   } else {
     win.loadFile(path.join(RENDERER_DIST, "index.html"));
     studioWin.loadFile(path.join(RENDERER_DIST, "studio.html"));

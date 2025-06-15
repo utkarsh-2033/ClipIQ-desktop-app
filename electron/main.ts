@@ -32,13 +32,15 @@ let webcamWin: BrowserWindow | null;
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 500,
+    width: 400,
     height: 600,
     minHeight: 600,
     minWidth: 300,
-    hasShadow: false,
-    // frame: false,
+    // maxWidth: 600,
+    // hasShadow: false,
+    frame: false,
     transparent: true,
+    // backgroundColor: '#00000000',
     alwaysOnTop: true,
     focusable: true,
     icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
@@ -50,12 +52,14 @@ function createWindow() {
     },
   });
   studioWin = new BrowserWindow({
-    width: 500,
-    height: 600,
-    minHeight: 600,
+     width: 400,
+    height: 300,
+    minHeight: 70,
+    maxHeight: 400,
     minWidth: 300,
-    hasShadow: false,
-    // frame: false,
+    maxWidth: 400,
+    // hasShadow: false,
+    frame: false,
     transparent: true,
     alwaysOnTop: true,
     focusable: true,
@@ -69,12 +73,14 @@ function createWindow() {
   });
 
   webcamWin = new BrowserWindow({
-    width: 500,
-    height: 600,
-    minHeight: 600,
+    width: 400,
+    height: 200,
+    minHeight: 70,
+    maxHeight: 400,
     minWidth: 300,
-    hasShadow: false,
-    // frame: false,
+    maxWidth: 400,
+    // hasShadow: false,
+    frame: false,
     transparent: true,
     alwaysOnTop: true,
     focusable: true,

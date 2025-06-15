@@ -47,7 +47,7 @@ const MediaConfiguration = ({ state, user }: Props) => {
   );
   console.log(state);
   return (
-    <form className="flex h-full relative w-full flex-col gap-y-5">
+    <form className="flex  relative w-full flex-col gap-y-5">
       {isPending && (
         <div
           className="fixed z-50 w-full top-0

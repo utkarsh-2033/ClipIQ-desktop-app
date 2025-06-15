@@ -44,7 +44,7 @@ const Widget = () => {
     }
   }, [user]);
   return (
-    <div className="p-5">
+    <div className="">
         {/* renders its children while Clerk is loading, */}
       <ClerkLoading>
         <div className="h-full flex justify-center items-center">
