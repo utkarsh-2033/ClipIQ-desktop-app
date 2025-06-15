@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, desktopCapturer, ipcMain } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -28,11 +28,26 @@ let win: BrowserWindow | null
 
 function createWindow() {
   win = new BrowserWindow({
+    width: 500,
+    height: 600,
+    minHeight: 600,
+    minWidth: 300,
+    hasShadow: false,
+    // frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    focusable: true,
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      devTools: true,
       preload: path.join(__dirname, 'preload.mjs'),
     },
   })
+
+   win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  win.setAlwaysOnTop(true, "screen-saver", 1);
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
@@ -56,6 +71,39 @@ app.on('window-all-closed', () => {
     win = null
   }
 })
+ipcMain.on("closeApp", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+    win = null;
+    // studio = null;
+    // floatingWebCam = null;
+  }
+});
+ipcMain.handle("getSources", async () => {
+  const data = await desktopCapturer.getSources({
+    thumbnailSize: { height: 100, width: 150 },
+    fetchWindowIcons: true,
+    types: ["window", "screen"],
+  });
+  return data;
+});
+ipcMain.on("media-sources", (event, payload) => {
+  // console.log(event);
+  // studio?.webContents.send("profile-received", payload);
+});
+ipcMain.on("resize-studio", (event, payload) => {
+  // console.log(event);
+  if (payload.shrink) {
+    // studio?.setSize(400, 100);
+  }
+  if (!payload.shrink) {
+    // studio?.setSize(400, 250);
+  }
+});
+ipcMain.on("hide-plugin", (event, payload) => {
+  // console.log(event);
+  win?.webContents.send("hide-plugin", payload);
+});
 
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the

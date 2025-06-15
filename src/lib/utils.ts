@@ -12,17 +12,17 @@ const httpsClient = axios.create({
   baseURL: import.meta.env.VITE_HOST_URL,
 });
 
-export const fetchUserdata=async(clerkId:string)=>{
-  const response=await httpsClient.get(`/auth/${clerkId}`, {
+export const fetchUserdata = async (clerkId: string) => {
+  const response = await httpsClient.get(`/auth/${clerkId}`, {
     headers: {
       "Content-Type": "application/json",
     },
   });
+  console.log(response);
   return response.data;
-}
+};
 
 export const getMediaSources = async () => {
-  //@ts-ignore
   // in an Electron renderer process, where ipcRenderer is used to communicate asynchronously with
   // the main process. The "getSources" channel likely triggers the main process to return a list of available display sources
   const displays = await window.ipcRenderer.invoke("getSources");
@@ -36,4 +36,28 @@ export const getMediaSources = async () => {
   );
   console.log("getting");
   return { displays, audio: audioInput };
+};
+
+export const updateMediaSettings = async (
+  screen: string,
+  audio: string,
+  preset: "HD" | "SD",
+  id: string
+) => {
+  const response = await httpsClient.post(
+    `/media-save/${id}`,
+    { screen, audio, preset },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }
+  );
+  console.log(response);
+  return response.data;
+};
+
+export const hidePluginWindow = (state: boolean) => {
+  //@ts-ignore
+  window.ipcRenderer.send("hide-plugin", { state });
 };

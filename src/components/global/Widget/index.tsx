@@ -3,6 +3,7 @@ import { fetchUserdata } from "@/lib/utils";
 import { ClerkLoading, SignedIn, useUser } from "@clerk/clerk-react";
 import React, { useEffect, useState } from "react";
 import { Loader } from "../Loader";
+import MediaConfiguration from '../Media-configuration/index';
 
 const Widget = () => {
   const [userdata, setUserdata] = useState<{
@@ -52,9 +53,8 @@ const Widget = () => {
       </ClerkLoading>
       <SignedIn>
         {userdata ? (
-            ""
-          //ts-ignore
-        //   <MediaConfiguration state={state} user={profile?.user} />
+         
+          <MediaConfiguration state={state} user={userdata?.user} />
         ) : (
           <div className="w-full h-full flex justify-center items-center">
             <Loader color="#fff" />

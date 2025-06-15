@@ -3,6 +3,7 @@ import './App.css'
 import {Toaster} from 'sonner'
 import ControlLayout from './layouts/ControlLayout'
 import AuthButton from './components/global/AuthButton'
+import Widget from './components/global/Widget'
 const client =new QueryClient()
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
     <QueryClientProvider client={client}>
       <ControlLayout>
         <AuthButton/>
+        <Widget/>
       </ControlLayout>
       <Toaster/>
     </QueryClientProvider>
