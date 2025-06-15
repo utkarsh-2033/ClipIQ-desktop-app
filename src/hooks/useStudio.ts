@@ -27,7 +27,7 @@ export const useStudio = (
       id:string
     }) => updateMediaSettings(data.screen,data.audio, data.preset, id),
     onSuccess:(data)=>{
-        toast(data?.status==="200"? "Success":"Error",{description:data?.data})
+        toast(data?.status===200? "Success":"Error",{description:data?.data})
     }
   });
   useEffect(()=>{

@@ -44,8 +44,12 @@ export const updateMediaSettings = async (
   preset: "HD" | "SD",
   id: string
 ) => {
+  console.log(id);
+  console.log("----------------------");
+  console.log("----------------------");
+  console.log("----------------------");
   const response = await httpsClient.post(
-    `/media-save/${id}`,
+    `/studio/${id}`,
     { screen, audio, preset },
     {
       headers: {
@@ -58,6 +62,22 @@ export const updateMediaSettings = async (
 };
 
 export const hidePluginWindow = (state: boolean) => {
-  //@ts-ignore
   window.ipcRenderer.send("hide-plugin", { state });
+};
+
+export const videoRecordingTime = (ms: number) => {
+  const second = Math.floor((ms / 1000) % 60)
+    .toString()
+    .padStart(2, "0");
+  const minute = Math.floor((ms / 1000 / 60) % 60)
+    .toString()
+    .padStart(2, "0");
+  const hour = Math.floor((ms / 1000 / 60 / 60) % 60)
+    .toString()
+    .padStart(2, "0");
+  return { length: `${hour}:${minute}:${second}`, minute };
+};
+
+export const resizeWindow = (shrink: boolean) => {
+  window.ipcRenderer.send("resize-studio", { shrink });
 };
