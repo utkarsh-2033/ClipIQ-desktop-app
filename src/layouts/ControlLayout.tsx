@@ -16,6 +16,7 @@ const ControlLayout = ({ children, className }: props) => {
     console.log(event);
     setIsVisible(payload.state);
   });
+// visibility: hidden-	The element (and its children) are hidden from view, but still take up layout space.
   return (
     <div
       className={cn(

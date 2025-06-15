@@ -150,6 +150,7 @@ ipcMain.on("closeApp", () => {
     webcamWin = null;
   }
 });
+
 ipcMain.handle("getSources", async () => {
   const data = await desktopCapturer.getSources({
     thumbnailSize: { height: 100, width: 150 },
@@ -158,10 +159,14 @@ ipcMain.handle("getSources", async () => {
   });
   return data;
 });
+
+//cross renderer communication via mainProcess
 ipcMain.on("media-sources", (event, payload) => {
   // console.log(event);
   studioWin?.webContents.send("profile-received", payload);
 });
+
+// browserWindowInstance.setSize(width: number, height: number[, animate: boolean])
 ipcMain.on("resize-studio", (event, payload) => {
   // console.log(event);
   if (payload.shrink) {
