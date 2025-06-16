@@ -9,14 +9,15 @@ const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
 const MAIN_DIST = path.join(process.env.APP_ROOT, "dist-electron");
 const RENDERER_DIST = path.join(process.env.APP_ROOT, "dist");
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, "public") : RENDERER_DIST;
+app.commandLine.appendSwitch("log-level", "3");
 let win;
 let studioWin;
 let webcamWin;
 function createWindow() {
   win = new BrowserWindow({
     width: 400,
-    height: 600,
-    minHeight: 600,
+    height: 400,
+    minHeight: 400,
     minWidth: 300,
     // maxWidth: 600,
     // hasShadow: false,
@@ -34,9 +35,9 @@ function createWindow() {
     }
   });
   studioWin = new BrowserWindow({
-    width: 400,
+    width: 300,
     height: 300,
-    minHeight: 70,
+    minHeight: 50,
     maxHeight: 400,
     minWidth: 300,
     maxWidth: 400,
@@ -54,11 +55,11 @@ function createWindow() {
     }
   });
   webcamWin = new BrowserWindow({
-    width: 400,
+    width: 200,
     height: 200,
     minHeight: 70,
     maxHeight: 400,
-    minWidth: 300,
+    minWidth: 70,
     maxWidth: 400,
     // hasShadow: false,
     frame: false,
@@ -140,6 +141,7 @@ ipcMain.on("resize-studio", (event, payload) => {
   }
 });
 ipcMain.on("hide-plugin", (event, payload) => {
+  console.log(event, "-------------------");
   win == null ? void 0 : win.webContents.send("hide-plugin", payload);
 });
 app.on("activate", () => {

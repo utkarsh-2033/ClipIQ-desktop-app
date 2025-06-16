@@ -22,7 +22,8 @@ const WebCam = () => {
   return (
     <video
       ref={camElement}
-      className='h-screen draggable object-cover rounded-full aspect-video border-2 relative border-white'
+      className='h-screen draggable object-cover rounded-full
+       aspect-video border-2 relative border-white'
     ></video>
   );
 };
