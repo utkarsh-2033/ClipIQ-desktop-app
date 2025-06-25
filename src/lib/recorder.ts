@@ -34,17 +34,23 @@ export const onStopRecording = () => {
 };
 const stopRecording = () => {
   hidePluginWindow(false);
-  socket.emit("process-video", {
-    filename: videoTransferFileName,
-    userId,
-  });
+  if (videoTransferFileName && userId) {
+    // toast.success("done");
+    socket.emit("process-video", {
+      filename: videoTransferFileName,
+      userId,
+    });
+  }
 };
 
 export const onDataAvailable = (e: BlobEvent) => {
-  socket.emit("video-chunks", {
-    chunks: e.data,
-    filename: videoTransferFileName,
-  });
+  if (e.data.size > 0 && videoTransferFileName) {
+    // toast.success("Video chunk sent!");
+    socket.emit("video-chunks", {
+      chunks: e.data,
+      filename: videoTransferFileName,
+    });
+  }
 };
 
 export const selectSources = async (
@@ -95,7 +101,7 @@ export const selectSources = async (
       //3.Preview: show the desktop(screen) stream in <video> element
       if (videoElement && videoElement.current) {
         videoElement.current.srcObject = stream;
-        videoElement.current.muted = true;
+        // videoElement.current.muted = true;
         await videoElement.current.play();
       }
       // (window as any).previewStream = stream;

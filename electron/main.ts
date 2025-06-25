@@ -1,9 +1,10 @@
 import { app, BrowserWindow, desktopCapturer, ipcMain } from "electron";
-import { createRequire } from "node:module";
+// import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
-const require = createRequire(import.meta.url);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // The built directory structure
@@ -163,13 +164,14 @@ ipcMain.handle("getSources", async () => {
 });
 
 //cross renderer communication via mainProcess
-ipcMain.on("media-sources", (event, payload) => {
+ipcMain.on("media-sources", (_event, payload) => {
   // console.log(event);
   studioWin?.webContents.send("profile-received", payload);
 });
 
 // browserWindowInstance.setSize(width: number, height: number[, animate: boolean])
-ipcMain.on("resize-studio", (event, payload) => {
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+ipcMain.on("resize-studio", (_event, payload) => {
   // console.log(event);
   if (payload.shrink) {
     studioWin?.setSize(400, 100);

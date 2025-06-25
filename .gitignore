@@ -23,3 +23,12 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+/dist/
+/release/
+/out/
+*.AppImage
+*.dmg
+*.exe
+*.zip
+*.deb

@@ -1,40 +1,33 @@
-import { app, ipcMain, desktopCapturer, BrowserWindow } from "electron";
-import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
-createRequire(import.meta.url);
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-process.env.APP_ROOT = path.join(__dirname, "..");
-const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
-const MAIN_DIST = path.join(process.env.APP_ROOT, "dist-electron");
-const RENDERER_DIST = path.join(process.env.APP_ROOT, "dist");
-process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, "public") : RENDERER_DIST;
-app.commandLine.appendSwitch("log-level", "3");
-let win;
-let studioWin;
-let webcamWin;
-function createWindow() {
-  win = new BrowserWindow({
+import { app as r, ipcMain as i, desktopCapturer as u, BrowserWindow as a } from "electron";
+import { fileURLToPath as m } from "node:url";
+import n from "node:path";
+const c = n.dirname(m(import.meta.url));
+process.env.APP_ROOT = n.join(c, "..");
+const p = process.env.VITE_DEV_SERVER_URL, v = n.join(process.env.APP_ROOT, "dist-electron"), d = n.join(process.env.APP_ROOT, "dist");
+process.env.VITE_PUBLIC = p ? n.join(process.env.APP_ROOT, "public") : d;
+r.commandLine.appendSwitch("log-level", "3");
+let t, e, o;
+function h() {
+  t = new a({
     width: 400,
     height: 400,
     minHeight: 400,
     minWidth: 300,
     // maxWidth: 600,
     // hasShadow: false,
-    frame: false,
-    transparent: true,
+    frame: !1,
+    transparent: !0,
     // backgroundColor: '#00000000',
-    alwaysOnTop: true,
-    focusable: true,
-    icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
+    alwaysOnTop: !0,
+    focusable: !0,
+    icon: n.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      devTools: true,
-      preload: path.join(__dirname, "preload.mjs")
+      nodeIntegration: !1,
+      contextIsolation: !0,
+      devTools: !0,
+      preload: n.join(c, "preload.mjs")
     }
-  });
-  studioWin = new BrowserWindow({
+  }), e = new a({
     width: 300,
     height: 300,
     minHeight: 50,
@@ -42,19 +35,18 @@ function createWindow() {
     minWidth: 300,
     maxWidth: 400,
     // hasShadow: false,
-    frame: false,
-    transparent: true,
-    alwaysOnTop: true,
-    focusable: true,
-    icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
+    frame: !1,
+    transparent: !0,
+    alwaysOnTop: !0,
+    focusable: !0,
+    icon: n.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      devTools: true,
-      preload: path.join(__dirname, "preload.mjs")
+      nodeIntegration: !1,
+      contextIsolation: !0,
+      devTools: !0,
+      preload: n.join(c, "preload.mjs")
     }
-  });
-  webcamWin = new BrowserWindow({
+  }), o = new a({
     width: 200,
     height: 200,
     minHeight: 70,
@@ -62,96 +54,57 @@ function createWindow() {
     minWidth: 70,
     maxWidth: 400,
     // hasShadow: false,
-    frame: false,
-    transparent: true,
-    alwaysOnTop: true,
-    focusable: true,
-    icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
+    frame: !1,
+    transparent: !0,
+    alwaysOnTop: !0,
+    focusable: !0,
+    icon: n.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      devTools: true,
-      preload: path.join(__dirname, "preload.mjs")
+      nodeIntegration: !1,
+      contextIsolation: !0,
+      devTools: !0,
+      preload: n.join(c, "preload.mjs")
     }
-  });
-  win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-  win.setAlwaysOnTop(true, "screen-saver", 1);
-  studioWin.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-  studioWin.setAlwaysOnTop(true, "screen-saver", 1);
-  webcamWin.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-  webcamWin.setAlwaysOnTop(true, "screen-saver", 1);
-  win.webContents.on("did-finish-load", () => {
-    win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
-  });
-  studioWin.webContents.on("did-finish-load", () => {
-    studioWin == null ? void 0 : studioWin.webContents.send(
+  }), t.setVisibleOnAllWorkspaces(!0, { visibleOnFullScreen: !0 }), t.setAlwaysOnTop(!0, "screen-saver", 1), e.setVisibleOnAllWorkspaces(!0, { visibleOnFullScreen: !0 }), e.setAlwaysOnTop(!0, "screen-saver", 1), o.setVisibleOnAllWorkspaces(!0, { visibleOnFullScreen: !0 }), o.setAlwaysOnTop(!0, "screen-saver", 1), t.webContents.on("did-finish-load", () => {
+    t == null || t.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
+  }), e.webContents.on("did-finish-load", () => {
+    e == null || e.webContents.send(
       "main-process-message",
       (/* @__PURE__ */ new Date()).toLocaleString()
     );
-  });
-  webcamWin.webContents.on("did-finish-load", () => {
-    webcamWin == null ? void 0 : webcamWin.webContents.send(
+  }), o.webContents.on("did-finish-load", () => {
+    o == null || o.webContents.send(
       "main-process-message",
       (/* @__PURE__ */ new Date()).toLocaleString()
     );
-  });
-  if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL);
-    studioWin.loadURL(`${"http://localhost:5173"}/studio.html`);
-    webcamWin.loadURL(`${"http://localhost:5173"}/webcam.html`);
-  } else {
-    win.loadFile(path.join(RENDERER_DIST, "index.html"));
-    studioWin.loadFile(path.join(RENDERER_DIST, "studio.html"));
-    webcamWin.loadFile(path.join(RENDERER_DIST, "webcam.html"));
-  }
+  }), p ? (t.loadURL(p), e.loadURL("http://localhost:5173/studio.html"), o.loadURL("http://localhost:5173/webcam.html")) : (t.loadFile(n.join(d, "index.html")), e.loadFile(n.join(d, "studio.html")), o.loadFile(n.join(d, "webcam.html")));
 }
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-    win = null;
-    studioWin = null;
-    webcamWin = null;
-  }
+r.on("window-all-closed", () => {
+  process.platform !== "darwin" && (r.quit(), t = null, e = null, o = null);
 });
-ipcMain.on("closeApp", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-    win = null;
-    studioWin = null;
-    webcamWin = null;
-  }
+i.on("closeApp", () => {
+  process.platform !== "darwin" && (r.quit(), t = null, e = null, o = null);
 });
-ipcMain.handle("getSources", async () => {
-  const data = await desktopCapturer.getSources({
-    thumbnailSize: { height: 100, width: 150 },
-    fetchWindowIcons: true,
-    types: ["window", "screen"]
-  });
-  return data;
+i.handle("getSources", async () => await u.getSources({
+  thumbnailSize: { height: 100, width: 150 },
+  fetchWindowIcons: !0,
+  types: ["window", "screen"]
+}));
+i.on("media-sources", (l, s) => {
+  e == null || e.webContents.send("profile-received", s);
 });
-ipcMain.on("media-sources", (event, payload) => {
-  studioWin == null ? void 0 : studioWin.webContents.send("profile-received", payload);
+i.on("resize-studio", (l, s) => {
+  s.shrink && (e == null || e.setSize(400, 100)), s.shrink || e == null || e.setSize(400, 250);
 });
-ipcMain.on("resize-studio", (event, payload) => {
-  if (payload.shrink) {
-    studioWin == null ? void 0 : studioWin.setSize(400, 100);
-  }
-  if (!payload.shrink) {
-    studioWin == null ? void 0 : studioWin.setSize(400, 250);
-  }
+i.on("hide-plugin", (l, s) => {
+  console.log(l, "-------------------"), t == null || t.webContents.send("hide-plugin", s);
 });
-ipcMain.on("hide-plugin", (event, payload) => {
-  console.log(event, "-------------------");
-  win == null ? void 0 : win.webContents.send("hide-plugin", payload);
+r.on("activate", () => {
+  a.getAllWindows().length === 0 && h();
 });
-app.on("activate", () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
-});
-app.whenReady().then(createWindow);
+r.whenReady().then(h);
 export {
-  MAIN_DIST,
-  RENDERER_DIST,
-  VITE_DEV_SERVER_URL
+  v as MAIN_DIST,
+  d as RENDERER_DIST,
+  p as VITE_DEV_SERVER_URL
 };

@@ -1,7 +1,7 @@
 import { useMediaResources } from "@/hooks/useMediaResources";
 import { fetchUserdata } from "@/lib/utils";
 import { ClerkLoading, SignedIn, useUser } from "@clerk/clerk-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Loader } from "../Loader";
 import MediaConfiguration from '../Media-configuration/index';
 
