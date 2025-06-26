@@ -39,11 +39,8 @@ function createWindow() {
     height: 400,
     minHeight: 400,
     minWidth: 300,
-    // maxWidth: 600,
-    // hasShadow: false,
     frame: false,
     transparent: true,
-    // backgroundColor: '#00000000',
     alwaysOnTop: true,
     focusable: true,
     icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
@@ -124,8 +121,8 @@ function createWindow() {
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
-    studioWin.loadURL(`${import.meta.env.VITE_APP_URL}/studio.html`);
-    webcamWin.loadURL(`${import.meta.env.VITE_APP_URL}/webcam.html`);
+    studioWin.loadURL(`${VITE_DEV_SERVER_URL}/studio.html`);
+    webcamWin.loadURL(`${VITE_DEV_SERVER_URL}/webcam.html`);
   } else {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(RENDERER_DIST, "index.html"));
