@@ -23,7 +23,7 @@ const StudioTray = () => {
   >(undefined);
 
   // Listen for profile data
-  if (isElectron()) {
+  if (isElectron() && window?.ipcRenderer?.on) {
     window.ipcRenderer.on("profile-received", (_, payload) => {
       setOnSources(payload);
     });
