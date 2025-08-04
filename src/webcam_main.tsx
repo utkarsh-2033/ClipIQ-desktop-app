@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { ClerkProvider } from '@clerk/clerk-react';
 import App from './webcam_app.tsx';
 import './index.css';
+import { isElectron } from './lib/utils.ts';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -19,6 +20,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 
 // Use contextBridge
+if (isElectron() && window?.ipcRenderer?.on) {
+
 window.ipcRenderer.on('main-process-message', (_event, message) => {
   console.log(message);
 });
+}
