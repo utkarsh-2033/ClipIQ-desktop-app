@@ -27,8 +27,8 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
   ? path.join(process.env.APP_ROOT, "public")
   : RENDERER_DIST;
 
-  app.commandLine.appendSwitch("log-level", "3"); // Warn and above
-
+app.commandLine.appendSwitch("log-level", "3"); // Warn and above
+const PROD_UI="https://utkarsh-2033.github.io/ClipIQ-desktop-app/";
 let win: BrowserWindow | null;
 let studioWin: BrowserWindow | null;
 let webcamWin: BrowserWindow | null;
@@ -52,7 +52,7 @@ function createWindow() {
     },
   });
   studioWin = new BrowserWindow({
-     width: 300,
+    width: 300,
     height: 300,
     minHeight: 50,
     maxHeight: 400,
@@ -123,11 +123,12 @@ function createWindow() {
     win.loadURL(VITE_DEV_SERVER_URL);
     studioWin.loadURL(`${VITE_DEV_SERVER_URL}/studio.html`);
     webcamWin.loadURL(`${VITE_DEV_SERVER_URL}/webcam.html`);
-  } else {
-    // win.loadFile('dist/index.html')
-    win.loadFile(path.join(RENDERER_DIST, "index.html"));
-    studioWin.loadFile(path.join(RENDERER_DIST, "studio.html"));
-    webcamWin.loadFile(path.join(RENDERER_DIST, "webcam.html"));
+  }
+  // win.loadFile('dist/index.html')
+  else {
+    win.loadURL(`${PROD_UI}/`);
+    studioWin.loadURL(`${PROD_UI}/studio.html`);
+    webcamWin.loadURL(`${PROD_UI}/webcam.html`);
   }
 }
 
@@ -178,7 +179,7 @@ ipcMain.on("resize-studio", (_event, payload) => {
   }
 });
 ipcMain.on("hide-plugin", (event, payload) => {
-  console.log(event,"-------------------");
+  console.log(event, "-------------------");
   win?.webContents.send("hide-plugin", payload);
 });
 
