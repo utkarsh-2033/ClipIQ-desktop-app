@@ -81,3 +81,7 @@ export const videoRecordingTime = (ms: number) => {
 export const resizeWindow = (shrink: boolean) => {
   window.ipcRenderer.send("resize-studio", { shrink });
 };
+
+export function isElectron() {
+  return navigator.userAgent.toLowerCase().includes('electron');
+}

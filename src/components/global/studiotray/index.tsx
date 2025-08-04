@@ -1,5 +1,5 @@
 import { onStopRecording, selectSources, StartRecording } from "@/lib/recorder";
-import { cn, videoRecordingTime } from "@/lib/utils";
+import { cn, isElectron, videoRecordingTime } from "@/lib/utils";
 import { Cast, Pause, Square } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -23,36 +23,40 @@ const StudioTray = () => {
   >(undefined);
 
   // Listen for profile data
-  window.ipcRenderer.on("profile-received", (_, payload) => {
-    setOnSources(payload);
-  });
+  if (isElectron()) {
+    window.ipcRenderer.on("profile-received", (_, payload) => {
+      setOnSources(payload);
+    });
+  }
 
   // Set up media sources for the preview
   useEffect(() => {
     if (onSources && onSources.screen) selectSources(onSources, videoElement);
-    return () => {selectSources(onSources!, videoElement)}
+    return () => {
+      selectSources(onSources!, videoElement);
+    };
   }, [onSources, preview]);
 
   // Timer and recording management
   useEffect(() => {
-    if(!recording)return
+    if (!recording) return;
     const recordTimeInterval = setInterval(() => {
-        let time = count + (new Date().getTime() - initialTime.getTime())
-        setCount(time)
-        const recordingTime = videoRecordingTime(time)
-        if (onSources?.plan === "FREE" && recordingTime.minute == "05") {
-            setRecording(false)
-            clearTime()
-            onStopRecording()
-        }
-        setOnTimer(recordingTime.length)
-        if(time <=0) {
-            setOnTimer("00:00:00")
-            clearInterval(recordTimeInterval)
-        }
-    },1)
-    return () => clearInterval(recordTimeInterval)
-},[recording])
+      let time = count + (new Date().getTime() - initialTime.getTime());
+      setCount(time);
+      const recordingTime = videoRecordingTime(time);
+      if (onSources?.plan === "FREE" && recordingTime.minute == "05") {
+        setRecording(false);
+        clearTime();
+        onStopRecording();
+      }
+      setOnTimer(recordingTime.length);
+      if (time <= 0) {
+        setOnTimer("00:00:00");
+        clearInterval(recordTimeInterval);
+      }
+    }, 1);
+    return () => clearInterval(recordTimeInterval);
+  }, [recording]);
 
   // Stop recording
   const stopRecording = () => {
@@ -69,7 +73,7 @@ const StudioTray = () => {
 
   // UI Rendering
   return !onSources ? (
-    <>No sources available</>
+    <div className="rounded-full flex justify-around items-center h-20 w-full border-2 bg-[#171717] draggable border-white/40">No sources available</div>
   ) : (
     <div className="flex flex-col justify-end gap-y-5 draggable">
       {preview && (
