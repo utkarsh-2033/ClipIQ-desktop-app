@@ -130,6 +130,16 @@ function createWindow() {
     studioWin.loadURL(`${PROD_UI}/studio.html`);
     webcamWin.loadURL(`${PROD_UI}/webcam.html`);
   }
+  win.webContents.openDevTools(); // 👈 add this
+
+  win.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+    console.error('Page failed to load:', errorDescription);
+  });
+
+  win.webContents.on('console-message', (event, level, message, line, sourceId) => {
+    console.log(`Console message: [${level}] ${message}`);
+  });
+
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
