@@ -130,15 +130,15 @@ function createWindow() {
     studioWin.loadURL(`${PROD_UI}/studio.html`);
     webcamWin.loadURL(`${PROD_UI}/webcam.html`);
   }
-  win.webContents.openDevTools(); //  add this
+  // win.webContents.openDevTools(); //  add this
 
-  win.webContents.on('did-fail-load', ( errorDescription) => {
-    console.error('Page failed to load:', errorDescription);
-  });
+  // win.webContents.on('did-fail-load', ( errorDescription) => {
+  //   console.error('Page failed to load:', errorDescription);
+  // });
 
-  win.webContents.on('console-message', ( level, message, ) => {
-    console.log(`Console message: [${level}] ${message}`);
-  });
+  // win.webContents.on('console-message', ( level, message, ) => {
+  //   console.log(`Console message: [${level}] ${message}`);
+  // });
 
 }
 
